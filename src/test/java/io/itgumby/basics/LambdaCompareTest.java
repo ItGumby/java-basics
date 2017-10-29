@@ -67,6 +67,32 @@ public class LambdaCompareTest {
         Assert.assertThat(humans.get(3), equalTo(new Human("Max", 13)));
     }
 
+    @Test
+    public void sortWithExtractedComparator() {
+        Collections.sort(humans, Comparator.comparing(Human::getName) );
+        Assert.assertThat(humans.get(0), equalTo(new Human("Gus", 6)));
+        Assert.assertThat(humans.get(2), equalTo(new Human("Max", 13)));
+    }
+
+    @Test
+    public void reverseSort() {
+        Comparator<Human> nameComparator = (a, b) -> a.getName().compareTo(b.getName());
+
+        humans.sort(nameComparator.reversed());
+        Assert.assertThat(humans.get(0), equalTo(new Human("Max", 13)));
+        Assert.assertThat(humans.get(2), equalTo(new Human("Gus", 6)));
+    }
+
+    @Test
+    public void sortWithMultipleConditions() {
+        humans.sort(
+                Comparator.comparing(Human::getAge)
+                        .thenComparing(Human::getName)
+        );
+        Assert.assertThat(humans.get(0), equalTo(new Human("Gus", 6)));
+        Assert.assertThat(humans.get(2), equalTo(new Human("Max", 13)));
+    }
+
     @Before
     public void buildHumans() {
         humans = new ArrayList<>();
