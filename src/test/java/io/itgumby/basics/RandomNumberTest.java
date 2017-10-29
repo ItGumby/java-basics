@@ -2,6 +2,7 @@ package io.itgumby.basics;
 
 import org.junit.Test;
 
+import java.nio.charset.Charset;
 import java.util.Random;
 
 import static org.junit.Assert.assertEquals;
@@ -78,6 +79,31 @@ public class RandomNumberTest {
         assertTrue(generated <= max);
     }
 
-    // TODO: Commons Math examples
-    // (from http://www.baeldung.com/java-generate-random-long-float-integer-double)
+    // TODO: Commons Math examples (RandomDataGenerator)
+
+    @Test
+    public void randomString() {
+        byte[] bytes = new byte[10];  // length is bounded
+        new Random().nextBytes(bytes);
+        String generated = new String(bytes, Charset.forName("UTF-8"));
+        System.out.println(String.format("random string (any characters): %s", generated));
+        assertTrue(generated.length() <= 10 );
+    }
+
+    @Test
+    public void randomStringLettersOnly() {
+        int min = (int)'a';
+        int max = (int)'z';
+        Random random = new Random();
+        StringBuilder buffer = new StringBuilder(10);
+        for (int i = 0; i < 10; i++) {
+            int boundedInt = min + (int) (random.nextFloat() * (max - min +1));
+            buffer.append((char)boundedInt);
+        }
+        String generated = buffer.toString();
+        System.out.println(String.format("random string (lc letters only): %s", generated));
+        assertTrue(generated.length() == 10 );
+    }
+
+    // TODO: Commons Lang alpha strings (RandomStringUtils)
 }
