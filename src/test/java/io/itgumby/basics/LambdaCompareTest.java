@@ -59,6 +59,14 @@ public class LambdaCompareTest {
         Assert.assertThat(humans.get(2), equalTo(new Human("Max", 13)));
     }
 
+    @Test
+    public void sortWithStaticMethod() {
+        humans.add(new Human("Gus", 4));
+        humans.sort(Human::compareByNameThenAge);
+        Assert.assertThat(humans.get(0), equalTo(new Human("Gus", 4)));
+        Assert.assertThat(humans.get(3), equalTo(new Human("Max", 13)));
+    }
+
     @Before
     public void buildHumans() {
         humans = new ArrayList<>();
