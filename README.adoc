@@ -1,0 +1,15 @@
+= Java Basics
+
+practicing remedial Java katas inspired by http://www.baeldung.com/java-tutorial["Back to Basics" tutorial]
+
+== Checklist
+
+* [x] setup from scratch (gradle, junit)
+* [x] Java8 lambda sorts
+* [ ] Core Java
+* [ ] Java Collections
+* [ ] Java I/O - files
+* [ ] Java I/O - to/from InputStream
+* [ ] Java I/O - to/from Reader
+* [ ] Java NIO
+* [ ] Advanced Java

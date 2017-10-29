@@ -2,8 +2,6 @@ package io.itgumby.basics;
 
 import lombok.Data;
 
-import java.util.Comparator;
-
 @Data
 public class Human {
     private String name;
