@@ -1,6 +1,5 @@
 package io.itgumby.basics;
 
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -10,10 +9,20 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import static junit.framework.TestCase.assertEquals;
-import static junit.framework.TestCase.assertTrue;
 import static org.hamcrest.CoreMatchers.equalTo;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
+import static org.junit.Assert.fail;
 
+/**
+ * plain jUnit test
+ * potential annotations:
+ * @Test public void {testName}  // optional timeout=ms, expected=Exception params
+ * @Before, @After public void {method} // run before/after EACH test
+ * @BeforeClass, @AfterClass  // run ONCE
+ * @Ignore  // skip the test
+ * @RunWith(Parameterized.class), @Parameterized.Parameters // data driven over entire class
+ */
 public class LambdaCompareTest {
 
     List<Human> humans;
@@ -21,7 +30,7 @@ public class LambdaCompareTest {
     @Ignore
     @Test
     public void canary() {
-        assertTrue(false);
+        fail("canary");
     }
 
     @Test
@@ -40,38 +49,38 @@ public class LambdaCompareTest {
                 return a.getName().compareTo(b.getName());
             }
         });
-        Assert.assertThat(humans.get(0), equalTo(new Human("Gus", 6)));
-        Assert.assertThat(humans.get(2), equalTo(new Human("Max", 13)));
+        assertThat(humans.get(0), equalTo(new Human("Gus", 6)));
+        assertThat(humans.get(2), equalTo(new Human("Max", 13)));
     }
 
     @Test
     public void typedLambdaSort() {
         // intentionally reverse sort
         humans.sort((Human a, Human b) -> b.getName().compareTo(a.getName()));
-        Assert.assertThat(humans.get(0), equalTo(new Human("Max", 13)));
-        Assert.assertThat(humans.get(2), equalTo(new Human("Gus", 6)));
+        assertThat(humans.get(0), equalTo(new Human("Max", 13)));
+        assertThat(humans.get(2), equalTo(new Human("Gus", 6)));
     }
 
     @Test
     public void inferredTypeLambdaSort() {
         humans.sort((a, b) -> a.getName().compareTo(b.getName()));
-        Assert.assertThat(humans.get(0), equalTo(new Human("Gus", 6)));
-        Assert.assertThat(humans.get(2), equalTo(new Human("Max", 13)));
+        assertThat(humans.get(0), equalTo(new Human("Gus", 6)));
+        assertThat(humans.get(2), equalTo(new Human("Max", 13)));
     }
 
     @Test
     public void sortWithStaticMethod() {
         humans.add(new Human("Gus", 4));
         humans.sort(Human::compareByNameThenAge);
-        Assert.assertThat(humans.get(0), equalTo(new Human("Gus", 4)));
-        Assert.assertThat(humans.get(3), equalTo(new Human("Max", 13)));
+        assertThat(humans.get(0), equalTo(new Human("Gus", 4)));
+        assertThat(humans.get(3), equalTo(new Human("Max", 13)));
     }
 
     @Test
     public void sortWithExtractedComparator() {
         Collections.sort(humans, Comparator.comparing(Human::getName) );
-        Assert.assertThat(humans.get(0), equalTo(new Human("Gus", 6)));
-        Assert.assertThat(humans.get(2), equalTo(new Human("Max", 13)));
+        assertThat(humans.get(0), equalTo(new Human("Gus", 6)));
+        assertThat(humans.get(2), equalTo(new Human("Max", 13)));
     }
 
     @Test
@@ -79,8 +88,8 @@ public class LambdaCompareTest {
         Comparator<Human> nameComparator = (a, b) -> a.getName().compareTo(b.getName());
 
         humans.sort(nameComparator.reversed());
-        Assert.assertThat(humans.get(0), equalTo(new Human("Max", 13)));
-        Assert.assertThat(humans.get(2), equalTo(new Human("Gus", 6)));
+        assertThat(humans.get(0), equalTo(new Human("Max", 13)));
+        assertThat(humans.get(2), equalTo(new Human("Gus", 6)));
     }
 
     @Test
@@ -89,8 +98,8 @@ public class LambdaCompareTest {
                 Comparator.comparing(Human::getAge)
                         .thenComparing(Human::getName)
         );
-        Assert.assertThat(humans.get(0), equalTo(new Human("Gus", 6)));
-        Assert.assertThat(humans.get(2), equalTo(new Human("Max", 13)));
+        assertThat(humans.get(0), equalTo(new Human("Gus", 6)));
+        assertThat(humans.get(2), equalTo(new Human("Max", 13)));
     }
 
     @Before
