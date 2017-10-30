@@ -6,11 +6,13 @@ import org.junit.Test;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
+import java.io.Closeable;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.PrintWriter;
 import java.util.Scanner;
 
 import static junit.framework.TestCase.assertFalse;
@@ -137,5 +139,35 @@ public class ScannerTest {
         assertEquals("John", scanner.next());
         assertEquals("Adam", scanner.next());
         assertEquals("Tom", scanner.next());
+    }
+
+    @Test
+    public void tryWithMultipleResources() throws IOException {
+        final String dest = "out/test/resources/copy.txt";
+        try(
+            Scanner myScanner = new Scanner(new File(MULTI_LINE));
+            PrintWriter writer = new PrintWriter(new File(dest))
+        ) {
+            while (myScanner.hasNext()) {
+                writer.print(myScanner.nextLine());
+            }
+        }
+        assertTrue(new File(dest).exists());
+    }
+
+    public class MyResource implements AutoCloseable {
+        @Override
+        public void close() throws Exception {
+            System.out.println("close called");
+        }
+        public void doIt() { System.out.println("done..."); }
+    }
+
+    @Test
+    public void autoCloseable() throws Exception {
+        try(MyResource rsc = new MyResource()) {
+            rsc.doIt();
+        }
+        // TODO: could actually implement a test, ie capture STDOUT...
     }
 }
