@@ -13,3 +13,26 @@ practicing remedial Java katas inspired by http://www.baeldung.com/java-tutorial
 * [ ] Java I/O - to/from Reader
 * [ ] Java NIO
 * [ ] Advanced Java
+
+
+== Notes
+
+* IntelliJ needs lombok plugin to leverage library.
+* UUIDs: a hash that overwrites bits for layout & version
+  ** Nil (all zeros)
+  ** v1 is for time (+ node ID, ie MAC address)
+  ** v2 "DCE Security" _but cracked hashing function_
+  ** v3 namespace _but cracked hashing function_
+  ** v5 namespace (hierarchy) => recommended
+  ** v4 "Random" => OK for "general"
+* File paths
+  ** `File.getPath()`  // relative OR absolute paths
+  ** `File.getAbsolutePath()`  // does NOT resolve shorthand (`.`, `..`)
+  ** `File.getCanonicalPath()`  // does resolve shorthand, symbolic links, but perf penalty for reading File system
+
+=== Skipped
+
+* `java.util.Timer, TimerTask` because Quartz has more robust scheduling
+* Rounding exercises with external libs: commons-math3, decimal4j
+* UUID
+* AVOID: `Math.round()` because of truncation errors
