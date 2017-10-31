@@ -1,19 +1,23 @@
 package io.itgumby.basics;
 
 import org.junit.After;
-import org.junit.Assert;
 import org.junit.Test;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
-import java.io.Closeable;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import java.util.Scanner;
+import java.util.StringTokenizer;
+import java.util.stream.Collectors;
 
 import static junit.framework.TestCase.assertFalse;
 import static org.junit.Assert.assertEquals;
@@ -169,5 +173,29 @@ public class ScannerTest {
             rsc.doIt();
         }
         // TODO: could actually implement a test, ie capture STDOUT...
+    }
+
+    public List<String> getTokensImperative(String str, String delim) {
+        List<String> tokens = new ArrayList<>();
+        StringTokenizer tokenizer = new StringTokenizer(str, delim);
+        while (tokenizer.hasMoreElements()) {
+            tokens.add(tokenizer.nextToken());
+        }
+        return tokens;
+    }
+
+    public List<String> getTokensStream(String str, String delim) {
+        return Collections.list(new StringTokenizer(str, delim)).stream()
+                .map(t -> (String) t)
+                .collect(Collectors.toList());
+    }
+
+    @Test
+    public void tokenizeString() {
+        String input = "Hello,baeldung.com";
+        String delim = "e";
+        List<String> expected = Arrays.asList("H", "llo,ba", "ldung.com");
+        assertEquals(expected.size(), getTokensImperative(input, delim).size());
+        assertEquals(getTokensImperative(input, delim), getTokensStream(input, delim));
     }
 }
