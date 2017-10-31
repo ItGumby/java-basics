@@ -35,6 +35,36 @@ practicing remedial Java katas inspired by http://www.baeldung.com/java-tutorial
   ** Can't use with "diamond operators", final classes
   ** Considered an anti-pattern
   ** Alternatives: Java 8 `Stream.of(...)`, Guava (advantage: immutable collections), Java 9 static factory methods
+* JDBC
+  ** register driver, ie `Class.forName("com.mysql.cj.jdbc.Driver");`
+  ** create connection: `Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/myDb", "user1", "pass");`
+  ** create statement: `Statement stmt = conn.createStatement();` (optional ResultSet.* params to allow random access of result)
+    * query: `ResultSet result = stmt.executeQuery(sqlStr);`
+    * updates: `int rowsAffected = stmt.executeUpdate(sqlStr);`
+    * generic: `stmt.execute(sqlStr);`
+  ** PreparedStatment: precompiled with 1+ parameters (denoted by `?`) for query or update
+    * `String updatePositionSql = "UPDATE employees SET postion=? WHERE emp_id=?"`
+    * `PreparedStatement pstmt = conn.prepareStatement(updatePositionSql)`
+    * set params (position, value):  `pstmt.setString(1, "lead developer"); pstmt.setInt(2, 1);`
+  ** CallableStatement to call stored procedures
+    * `String sprocSql = "{call insertEmployee(?,?,...)}";`
+    * `CallableStatement cstmt = conn.prepareCall(sprocSql);`
+    * set params (position, val) like prepared statements
+    * register output params, ie `cstmt.registerOutParameter(1, Types.INTEGER);`
+    * `cstmt.execute();`
+    * retrieve out params, ie `int newId = cstmt.getInt(1);`
+  ** ResultSet
+    * `next()`/`previous()` <= navigate forward/backward 1 row
+    * `first()`/`last()`/`beforeFirst()`/`beforeLast()` <= navigate
+    * `getRow()`/`absolute(int row)`/`relative(int rows)` <= current row number or move to row
+    * `updateRow()` <= persist changes of current row to database
+    * `insertRow()`/`deleteRow()` <= add/remove rows to the resultSet
+    * `refreshRow()` <= refresh resultSet from database
+  ** Metadata
+    * `DatabaseMetadata` <= general DB data such as tables, stored procedures or SQL dialect
+    * `ResultSetMetadata` <= info about the ResultSet, such as number & names of its columns
+  ** Transactions: if `conn.autoCommit` is false, can use `conn.commit()`, `conn.rollback()`
+  ** don't forget to close the connection!
 
 === Skipped
 
@@ -45,3 +75,6 @@ practicing remedial Java katas inspired by http://www.baeldung.com/java-tutorial
 * File paths ( `File.get___Path()` )
 * Stream `concat(head, tail)`.  In middle is complex (convert to list, inject, then convert back to stream)
 * Double-brace initialization
+* JDBC because setup complication
+*
+
