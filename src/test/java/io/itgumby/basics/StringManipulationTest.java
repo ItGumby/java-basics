@@ -1,8 +1,16 @@
 package io.itgumby.basics;
 
+import com.google.common.base.Splitter;
+import org.apache.commons.lang3.StringUtils;
+import org.hamcrest.collection.IsIterableContainingInOrder;
 import org.junit.Test;
 
+import java.util.Arrays;
+import java.util.List;
+
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
 
 public class StringManipulationTest {
 
@@ -55,5 +63,44 @@ public class StringManipulationTest {
         assertEquals("", StringManipulation.removeLastCharRegexOptional(""));
         assertEquals("", StringManipulation.removeLastCharRegexOptional("a"));
         assertEquals("ab", StringManipulation.removeLastCharRegexOptional("abc"));
+    }
+
+    @Test
+    public void stringSplitDelimiters() {
+        String[] expected = {"max", "isabel", "gus"};
+        assertArrayEquals(expected, "max,isabel,gus".split(","));
+        assertArrayEquals(expected, "max isabel gus".split(" "));
+    }
+
+    @Test
+    public void stringSplitRegex() {
+        String[] expected = { "192", "168", "0", "1" };
+        assertArrayEquals(expected, "192.168.0.1".split("\\."));
+
+        expected = "itgumby".split(""); // each letter
+        Arrays.stream(expected).forEach(l -> System.out.print(l + ","));
+        System.out.println("");
+        assertArrayEquals(expected, "i t,g.u|m b y".split("\\s+|,\\s*|\\.|\\|"));
+    }
+
+    @Test
+    public void stringUtilsSplit() {
+        String[] expected = {"planes", "trains", "automobiles"};
+        assertArrayEquals(expected, StringUtils.split("planes trains automobiles"));
+        assertArrayEquals(expected, StringUtils.split("planes    trains  automobiles"));
+        String[] empty = {};
+        assertArrayEquals(empty, StringUtils.split(""));
+        assertArrayEquals(null, StringUtils.split(null));
+    }
+
+    @Test
+    public void splitter() {
+        String[] expected = { "planes", "trains", "automobiles" };
+        List<String> actual = Splitter.on(',')
+                .trimResults()
+                .omitEmptyStrings()
+                .splitToList("planes,trains ,, automobiles");
+        assertThat(actual, IsIterableContainingInOrder.contains(expected));
+
     }
 }
