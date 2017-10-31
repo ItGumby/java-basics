@@ -103,4 +103,14 @@ public class StringManipulationTest {
         assertThat(actual, IsIterableContainingInOrder.contains(expected));
 
     }
+
+    @Test
+    public void imperativeCountChars() {
+        assertEquals(2, StringManipulation.imperativeCountChars("elephant", 'e'));
+        assertEquals(2, StringManipulation.recursiveCountChars("elephant", 'e', 0));
+        assertEquals(2, StringManipulation.regexCountChar("elephant", 'e'));
+        assertEquals(2, StringManipulation.lambdaCountChar("elephant", 'e'));
+        assertEquals(2, StringManipulation.stringUtilsCountChar("elephant", 'e'));
+        assertEquals(2, StringManipulation.guavaCountChar("elephant", 'e'));
+    }
 }

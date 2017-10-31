@@ -1,9 +1,12 @@
 package io.itgumby.basics;
 
+import com.google.common.base.CharMatcher;
 import lombok.NonNull;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.Optional;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class StringManipulation {
 
@@ -35,5 +38,47 @@ public class StringManipulation {
         return Optional.ofNullable(s)
                 .map(str -> str.replaceAll(".$", ""))
                 .orElse(s);
+    }
+
+    public static int imperativeCountChars(String string, char c) {
+        int count = 0;
+        for (int i = 0; i < string.length(); i++) {
+            if (string.charAt(i) == c) {
+                count++;
+            }
+        }
+        return count;
+    }
+    public static int recursiveCountChars(String string, char searchedChar, int index) {
+        if (index >= string.length()) return 0;
+        int count = string.charAt(index) == searchedChar ? 1 : 0;
+        return count + recursiveCountChars(string, searchedChar, index + 1);
+    }
+
+    /**
+     * technically correct, but overkill & slow to use powerful RegEx
+     */
+    public static int regexCountChar(String string, char searchChar) {
+        int count = 0;
+        Pattern pattern = Pattern.compile("[^e]*e");
+        Matcher matcher = pattern.matcher(string);
+        while(matcher.find()) {
+            count++;
+        }
+        return count;
+    }
+
+    public static long lambdaCountChar(String string, char searchChar) {
+        return string.chars()
+                .filter(ch -> ch == searchChar)
+                .count();
+    }
+
+    public static int stringUtilsCountChar(String string, char searchChar) {
+        return StringUtils.countMatches(string, searchChar);
+    }
+
+    public static int guavaCountChar(String string, char searchChar) {
+        return CharMatcher.is(searchChar).countIn(string);
     }
 }
