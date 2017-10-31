@@ -29,6 +29,12 @@ practicing remedial Java katas inspired by http://www.baeldung.com/java-tutorial
   ** `File.getPath()`  // relative OR absolute paths
   ** `File.getAbsolutePath()`  // does NOT resolve shorthand (`.`, `..`)
   ** `File.getCanonicalPath()`  // does resolve shorthand, symbolic links, but perf penalty for reading File system
+* Double-brace Initialization (`{{...}}`)
+  ** pros: less code & more readable.
+  ** cons: creates extra anonymous class & can cause memory leaks (hidden ref to enclosing instance)
+  ** Can't use with "diamond operators", final classes
+  ** Considered an anti-pattern
+  ** Alternatives: Java 8 `Stream.of(...)`, Guava (advantage: immutable collections), Java 9 static factory methods
 
 === Skipped
 
@@ -36,3 +42,6 @@ practicing remedial Java katas inspired by http://www.baeldung.com/java-tutorial
 * Rounding exercises with external libs: commons-math3, decimal4j
 * UUID
 * AVOID: `Math.round()` because of truncation errors
+* File paths ( `File.get___Path()` )
+* Stream `concat(head, tail)`.  In middle is complex (convert to list, inject, then convert back to stream)
+* Double-brace initialization
