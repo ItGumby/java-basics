@@ -81,4 +81,5 @@ public class StringManipulation {
     public static int guavaCountChar(String string, char searchChar) {
         return CharMatcher.is(searchChar).countIn(string);
     }
+
 }

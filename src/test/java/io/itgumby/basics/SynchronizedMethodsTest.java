@@ -8,7 +8,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.IntStream;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 public class SynchronizedMethodsTest {
 

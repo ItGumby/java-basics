@@ -6,7 +6,7 @@ practicing remedial Java katas inspired by http://www.baeldung.com/java-tutorial
 
 * [x] setup from scratch (gradle, junit)
 * [x] Java8 lambda sorts
-* [ ] Core Java
+* [x] Core Java
 * [ ] Java Collections
 * [ ] Java I/O - files
 * [ ] Java I/O - to/from InputStream
@@ -65,6 +65,7 @@ practicing remedial Java katas inspired by http://www.baeldung.com/java-tutorial
     * `ResultSetMetadata` <= info about the ResultSet, such as number & names of its columns
   ** Transactions: if `conn.autoCommit` is false, can use `conn.commit()`, `conn.rollback()`
   ** don't forget to close the connection!
+* Efficient Readers: wrap InputStreamReader with BufferedReader to process by lines
 
 === Skipped
 
@@ -76,5 +77,5 @@ practicing remedial Java katas inspired by http://www.baeldung.com/java-tutorial
 * Stream `concat(head, tail)`.  In middle is complex (convert to list, inject, then convert back to stream)
 * Double-brace initialization
 * JDBC because setup complication
-*
-
+* Thread wait, sleep because Functional & Reactive programming
+* StackTrace to string: logging or Java 9 StackWalking API instead

@@ -113,4 +113,5 @@ public class StringManipulationTest {
         assertEquals(2, StringManipulation.stringUtilsCountChar("elephant", 'e'));
         assertEquals(2, StringManipulation.guavaCountChar("elephant", 'e'));
     }
+
 }
