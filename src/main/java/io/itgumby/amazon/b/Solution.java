@@ -7,9 +7,8 @@ import java.util.stream.IntStream;
 public class Solution {
 
     public int bstDistance(int[] values, int n,
-                           int min, int max)
-    {
-        if (!IntStream.of(values).anyMatch(x -> x == min) ||  !IntStream.of(values).anyMatch(x -> x == max)) {
+                           int min, int max) {
+        if (!IntStream.of(values).anyMatch(x -> x == min) || !IntStream.of(values).anyMatch(x -> x == max)) {
             return -1;
         }
         if (min == max) return 0;
@@ -27,10 +26,10 @@ public class Solution {
             else if (!list.contains(min) && val <= max)
                 list.add(val);
 
-            if(list.contains(min) && list.contains(max))
+            if (list.contains(min) && list.contains(max))
                 break;
         }
-        System.out.println(String.format("(%d, %d) => %s", min, max, list));
+        //System.out.println(String.format("(%d, %d) => %s", min, max, list));
         return list.size() - 1;
     }
 

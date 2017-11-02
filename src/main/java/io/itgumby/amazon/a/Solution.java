@@ -11,7 +11,7 @@ public class Solution {
                                          int truckCapacity) {
         List<List<Integer>> result = new ArrayList<>();
         List<List<Integer>> remaining = allLocations;
-        while(result.size() < truckCapacity) {
+        while (result.size() < truckCapacity) {
             final List<Integer> currentPos = result.isEmpty() ? Arrays.asList(0, 0) : result.get(result.size() - 1);
             remaining = remaining.stream()
                     .filter(a -> !result.contains(a))
@@ -26,9 +26,9 @@ public class Solution {
     Double computeDistance(final List<Integer> currentPos, final List<Integer> location) {
         Integer x = currentPos.get(0) - location.get(0);
         Integer y = currentPos.get(1) - location.get(1);
-        double distance = Math.hypot(x, y);
-//        double distance = Math.hypot(x, y) + Math.hypot(location.get(0), location.get(1));
         // does it need to include trip back home?
+        double distance = Math.hypot(x, y);
+        //double distance = Math.hypot(x, y) + Math.hypot(location.get(0), location.get(1));
         System.out.println(String.format("\t(%d, %d) - (%d, %d) = %f", currentPos.get(0), currentPos.get(1), location.get(0), location.get(1), distance));
         return new Double(distance);
     }
