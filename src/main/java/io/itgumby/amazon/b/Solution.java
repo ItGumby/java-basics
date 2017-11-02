@@ -1,7 +1,5 @@
 package io.itgumby.amazon.b;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.stream.IntStream;
 
 public class Solution {
@@ -11,26 +9,28 @@ public class Solution {
         if (!IntStream.of(values).anyMatch(x -> x == min) || !IntStream.of(values).anyMatch(x -> x == max)) {
             return -1;
         }
-        if (min == max) return 0;
+        int distance = 0;
+        if (min == max) return distance;
         if (min > max) return bstDistance(values, n, max, min);
 
-        List<Integer> list = new ArrayList<>();
+        boolean hasMin = false;
+        boolean hasMax = false;
         for (int i = 0; i < values.length; i++) {
             int val = values[i];
-            if (list.isEmpty() && (val > max || val < min)) {
-                continue;
+            if ((distance == 0) && (val > max || val < min)) {
+                continue; // skip out of range values at front of list
             }
 
-            if (!list.contains(max) && val >= min)
-                list.add(val);
-            else if (!list.contains(min) && val <= max)
-                list.add(val);
+            if ((!hasMax && val >= min) || (!hasMin && val <= max)) {
+                distance++;
+            }
 
-            if (list.contains(min) && list.contains(max))
-                break;
+            if (val == min) hasMin = true;
+            else if (val == max) hasMax = true;
+
+            if (hasMin && hasMax) break;
         }
-        //System.out.println(String.format("(%d, %d) => %s", min, max, list));
-        return list.size() - 1;
+        return distance - 1;
     }
 
 }
