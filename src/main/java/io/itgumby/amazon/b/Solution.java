@@ -1,23 +1,37 @@
 package io.itgumby.amazon.b;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.IntStream;
 
 public class Solution {
 
     public int bstDistance(int[] values, int n,
-                           int node1, int node2)
+                           int min, int max)
     {
-        if (!IntStream.of(values).anyMatch(x -> x == node1) ||  !IntStream.of(values).anyMatch(x -> x == node2)) {
+        if (!IntStream.of(values).anyMatch(x -> x == min) ||  !IntStream.of(values).anyMatch(x -> x == max)) {
             return -1;
         }
-        if (node1 == node2) return 0;
-        int pos1 = -1;
-        int pos2 = -1;
-        for (int i = 0; i < n; i++) {
-            if (values[i] == node1) pos1 = i;
-            if (values[i] == node2) pos2 = i;
+        if (min == max) return 0;
+        if (min > max) return bstDistance(values, n, max, min);
+
+        List<Integer> list = new ArrayList<>();
+        for (int i = 0; i < values.length; i++) {
+            int val = values[i];
+            if (list.isEmpty() && (val > max || val < min)) {
+                continue;
+            }
+
+            if (!list.contains(max) && val >= min)
+                list.add(val);
+            else if (!list.contains(min) && val <= max)
+                list.add(val);
+
+            if(list.contains(min) && list.contains(max))
+                break;
         }
-        return 1;
+        System.out.println(String.format("(%d, %d) => %s", min, max, list));
+        return list.size() - 1;
     }
 
 }
